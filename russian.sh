@@ -32,5 +32,58 @@ s/await update.message.reply_text(f\"Starting new dialog due to timeout (<b>{con
 s/db.set_user_attribute(user_id, \"last_interaction\", datetime.now())/db.set_user_attribute(user_id, \"last_interaction\", datetime.now())/g;
 ' "$file_path"
 
+
+
+
 # Выводим сообщение о завершении выполнения скрипта
-echo "Завершено."
+echo "Завершен перевод по строкам."
+echo "Переходим к замене файла с режимом чата."
+
+file_path_modes="chatgpt_tg_bot_ru/config/chat_modes.yml"
+
+# Проверка наличия файла по указанному пути
+if [ -f "$file_path_modes" ]; then
+    echo "Файл chat_modes.yml найден по указанному пути."
+else
+    echo "Файл chat_modes.yml не найден по указанному пути."
+    echo "Выполняется автоматический поиск файла..."
+
+    # Поиск файла в текущей директории и поддиректориях
+    file_path_modes=$(find . -name "chat_modes.yml" -print -quit)
+
+    if [ -z "$file_path_modes" ]; then
+        echo "Файл chat_modes.yml не найден."
+        exit 1
+    fi
+
+    echo "Файл найден: $file_path_modes"
+fi
+
+# Проверка установки curl
+if ! command -v curl &> /dev/null; then
+    echo "Установка curl..."
+
+    # Установка curl в фоновом режиме
+    apt-get install -y curl > /dev/null &
+
+    # Ожидание завершения установки
+    wait $!
+
+    echo "Установка curl завершена."
+fi
+
+# Загрузка содержимого файла
+curl -sSf "https://raw.githubusercontent.com/persoun/chatgpt_tg_bot_ru/main/config/chat_modes.yml" > temp_file
+
+# Проверка успешности загрузки
+if [ $? -eq 0 ]; then
+    # Замена содержимого файла
+    mv temp_file "$file_path_modes"
+    echo "Файл успешно обновлен."
+else
+    echo "Ошибка при загрузке файла."
+fi
+
+# Удаление временного файла
+rm temp_file
+
