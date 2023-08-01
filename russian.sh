@@ -6,7 +6,6 @@ file_path="bot/bot.py"
 if [ ! -f "$file_path" ]; then
     file_path="chatgpt_telegram_bot/bot/bot.py"
 fi
-
 # Переводим текст на русский и выполняем замены в файле с помощью awk
 awk -i inplace '
 {
@@ -35,6 +34,5 @@ awk -i inplace '
     print
 }
 ' "$file_path"
-
 # Выводим сообщение о завершении выполнения скрипта
 echo "Завершено."
