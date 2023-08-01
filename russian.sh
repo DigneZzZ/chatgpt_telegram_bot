@@ -1,10 +1,10 @@
-#!/bin/bash
+ #!/bin/bash
 
-file_path="/bot/bot.py"
+file_path="bot/bot.py"
 
 # Проверяем, существует ли файл по указанному пути
 if [ ! -f "$file_path" ]; then
-    file_path="/chatgpt_telegram_bot/bot/bot.py"
+    file_path="chatgpt_telegram_bot/bot/bot.py"
 fi
 
 # Переводим текст на русский и выполняем замены в файле с помощью awk
