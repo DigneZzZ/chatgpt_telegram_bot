@@ -40,7 +40,14 @@
 ```bash
 bash <(wget -qO- https://raw.githubusercontent.com/DigneZzZ/chatgpt_telegram_bot/main/setup.sh)
 ```
-
+### Русификация отдельно:
+```bash
+bash <(wget -qO- https://raw.githubusercontent.com/DigneZzZ/chatgpt_telegram_bot/main/russian.sh)
+```
+После русификации нужно пересобрать контейнер:
+```bash
+docker-compose --env-file config/config.env up --build -d
+```
 ## Ручная установка
 Процесс описан на странице:
 https://openode.ru/topic/352-sozdaem-bota-chatgpt-v-telegram-podrobnaya-instruktsiya/
